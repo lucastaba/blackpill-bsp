@@ -56,7 +56,7 @@
             <feature type="Button" n="3" name="User, reset, boot selection" />
             <feature type="CustomFF" n="52.81" m="20.78" name="Two 20-Pinconnectors" />
             <feature type="LED" n="2" name="User and power" />
-            <mountedDevice deviceIndex="0" Dvendor="STMicroelectronics:13" Dname="STM32F411CEU6" />
+            <mountedDevice deviceIndex="0" Dvendor="STMicroelectronics:13" Dname="STM32F411CEUx" />
             <image large="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F411-3D-Model-Render/top.jpg"
                    perspective="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F4x1-V30_3D.jpg"/>
             <debugInterface adapter="ST-Link"/>
@@ -65,5 +65,27 @@
             <book category="overview" name="https://www.st.com/resource/en/reference_manual/rm0383-stm32f411xce-advanced-armbased-32bit-mcus-stmicroelectronics.pdf" title="Reference Manual" />
         </board>
     </boards>
+
+    <conditions>
+        <condition id="STM32F411">
+            <description>True if device is the STM32F411</description>
+            <require Dvendor="STMicroelectronics:13" Dname="STM32F411CEUx" />
+        </condition>
+        <condition id="BlackPill">
+            <description>True if board is Black Pill V3.0</description>
+            <require  condition="STM32F411"/>
+            <require  Bvendor="WeActStudio" Bname="BlackPill" Brevision="3.0.0" />
+        </condition>
+    </conditions>
+
+    <examples>
+        <example name="Blinky" folder="./" doc="./">
+            <description>Simple example to test board. The example is a blinking LED with frequency 1Hz.</description>
+            <board name="Black Pill" vendor="WeActStudio" />
+            <project>
+                <environment name="csolution" folder="" load="" />
+            </project>
+        </example>
+    </examples>
 
 </package>

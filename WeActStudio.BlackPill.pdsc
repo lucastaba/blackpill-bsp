@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.7.49" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Open-CMSIS-Pack/Open-CMSIS-Pack-Spec/refs/tags/v1.7.49/schema/PACK.xsd" Dcore="Cortex-M4" Dvendor="STMicroelectronics:13" Dname="STM32F411CE" >
+    
+    <name>BlackPill</name>
+    
+    <vendor>WeActStudio</vendor>
+
+    <description>Board Support Pack for WeActStudio BlackPill V3.0 board.</description>
+
+    <url></url>
+
+    <supportContact>lucas.taba3@gmail.com</supportContact>
+
+    <license>./LICENSE</license>
+
+    <licenseSets>
+        <licenseSet id="all" default="true" gating="true">
+            <license name="./LICENSE" title="MIT License" spdx="MIT" url="https://spdx.org/licenses/MIT.html"/>
+        </licenseSet>
+    </licenseSets>
+
+    <requirements>
+        <packages>
+            <package vendor="Keil" name="STM32F4xx_DFP" version="3.0.0:3.0.0" />
+            <package vendor="ARM" name="CMSIS" version="6.2.0:6.2.0" />
+        </packages>
+        <compilers>
+            <compiler name="GCC" version="13.3.0:13.3.0" />
+        </compilers>
+        <languages>
+            <language name="C" version="99" />
+        </languages>
+        <targets>
+            <target Dvendor="STMicroelectronics:13" Dname="STM32F411CE"></target>
+        </targets>
+    </requirements>
+
+    <repository type="git">https://github.com/lucastaba/blackpill-bsp.git</repository>
+
+    <releases>
+        <release version="0.1.0" date="2025-06-23">
+            Initial version.
+        </release>
+    </releases>
+
+    <keywords>
+        <keyword>WeActStudio</keyword>
+        <keyword>BlackPill</keyword>
+        <keyword>STM32F411</keyword>
+    </keywords>
+    
+    <boards>
+        <board vendor="WeActStudio" name="BlackPill" revision="3.0.0">
+            <description>STM32 development board with STM32F411CEU6.</description>
+            <book category="schematic" name="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/HDK/MiniF4x1Cx_V30%20SchDoc.pdf" title="Board Schematic" />
+            <mountedDevice deviceIndex="0" Dvendor="STMicroelectronics:13" Dname="STM32F411CE" />
+            <image large="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F411-3D-Model-Render/top.jpg"
+                   perspective="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F4x1-V30_3D.jpg"/>
+            <feature type="XTAL" n="25000000" name="25 MHz HSE crystal oscillator" />
+            <feature type="XTAL" n="32768" name="32.768 kHz LSE crystal oscillator" />
+            <feature type="PWR" n="3.3" m="5.0" name="USB, external 5.0V, and external 3.3V" />
+            <feature type="USB" n="1" />
+            <feature type="Button" n="3" name="User, reset, and boot selection" />
+            <feature type="CustomFF" n="52.81" m="20.78" name="Two 20-Pin connectors" />
+            <feature type="LED" n="2" name="User and power" />
+            <debugInterface adapter="JTAG/SW"/>
+        </board>
+    </boards>
+
+    <conditions>
+        <condition id="BlackPill">
+            <description>True if board is Black Pill V3.0</description>
+            <require  Bvendor="WeActStudio" Bname="BlackPill" Brevision="3.0.0" />
+        </condition>
+    </conditions>
+
+    <components>
+        <component Cclass="CMSIS Driver" Cgroup="VIO" Csub="Board" Cversion="1.0.0" >
+            <description>Virtual I/O implementation for Black Pill.</description>
+            <RTE_Components_h>
+                #define RTE_VIO_BOARD
+            </RTE_Components_h>
+            <files>
+                <file category="sourceC" name="CMSIS/Driver/VIO/vio_blackpill.c" />
+            </files>
+        </component>
+    </components>
+
+    <examples>
+        <example name="Blinky" folder="Examples/Blinky" doc="">
+            <description>LED 1Hz blink in bare-metal.</description>
+            <board name="Black-Pill" vendor="WeActStudio" />
+            <project>
+                <environment name="csolution" load="Blinky.csolution.yml" />
+            </project>
+        </example>
+    </examples>
+</package>

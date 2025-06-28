@@ -53,7 +53,7 @@
         <board vendor="WeActStudio" name="BlackPill" revision="3.0.0">
             <description>STM32 development board with STM32F411CEU6.</description>
             <book category="schematic" name="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/HDK/MiniF4x1Cx_V30%20SchDoc.pdf" title="Board Schematic" />
-            <mountedDevice deviceIndex="0" Dvendor="STMicroelectronics:13" Dname="STM32F411CE" />
+            <mountedDevice deviceIndex="0" Dvendor="STMicroelectronics:13" Dname="STM32F411CEUx" />
             <image large="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F411-3D-Model-Render/top.jpg"
                    perspective="https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1/blob/master/images/STM32F4x1-V30_3D.jpg"/>
             <feature type="XTAL" n="25000000" name="25 MHz HSE crystal oscillator" />
@@ -75,7 +75,7 @@
     </conditions>
 
     <components>
-        <component Cclass="CMSIS Driver" Cgroup="VIO" Csub="Board" Cversion="1.0.0" >
+        <component Cclass="CMSIS Driver" Cgroup="VIO" Csub="Board" Cversion="1.0.0" Capiversion="1.0.0" condition="BlackPill" >
             <description>Virtual I/O implementation for Black Pill.</description>
             <RTE_Components_h>
                 #define RTE_VIO_BOARD
@@ -87,12 +87,16 @@
     </components>
 
     <examples>
-        <example name="Blinky" folder="Examples/Blinky" doc="">
+        <example name="Blinky" folder="Examples/Blinky" doc="" version="0.1.0" >
             <description>LED 1Hz blink in bare-metal.</description>
-            <board name="Black-Pill" vendor="WeActStudio" />
+            <board name="BlackPill" vendor="WeActStudio" />
             <project>
                 <environment name="csolution" load="Blinky.csolution.yml" />
             </project>
+            <attributes>
+                <keyword>Get Started</keyword>
+                <keyword>Blinky</keyword>
+            </attributes>
         </example>
     </examples>
 </package>

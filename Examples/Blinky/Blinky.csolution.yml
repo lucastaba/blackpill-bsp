@@ -22,6 +22,11 @@ solution:
   target-types:
     - type: BlackPill
       board: WeActStudio::BlackPill:3.0.0
+      target-set:
+        - set:
+          debugger:
+            name: ST-Link
+            protocol: swd
 
 # List different build types
   build-types:

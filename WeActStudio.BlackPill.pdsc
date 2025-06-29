@@ -39,7 +39,7 @@
     <repository type="git">https://github.com/lucastaba/blackpill-bsp.git</repository>
 
     <releases>
-        <release version="0.1.0" date="2025-06-23">
+        <release version="1.0.0" date="2025-06-23">
             Initial version.
         </release>
     </releases>
@@ -64,7 +64,7 @@
             <feature type="Button" n="3" name="User, reset, and boot selection" />
             <feature type="CustomFF" n="52.81" m="20.78" name="Two 20-Pin connectors" />
             <feature type="LED" n="2" name="User and power" />
-            <debugInterface adapter="JTAG/SW"/>
+            <debugInterface adapter="ST-Link"/>
         </board>
     </boards>
 

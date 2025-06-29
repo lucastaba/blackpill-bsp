@@ -14,6 +14,7 @@ solution:
 # List the packs that define the device and/or board, optional with minimum version
   packs:
     - pack: ARM::CMSIS@^6.2.0
+    - pack: ARM::CMSIS-Driver_STM32@^1.2.0
     - pack: Keil::STM32F4xx_DFP@^3.0.0
     - pack: WeActStudio::BlackPill@^0.1.0
 

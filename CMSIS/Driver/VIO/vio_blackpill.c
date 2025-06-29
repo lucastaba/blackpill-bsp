@@ -23,6 +23,7 @@
  */
 
 #include <string.h>
+#include "Driver_GPIO.h"
 #include "cmsis_vio.h"
 
 #include "RTE_Components.h"                 // Component selection
@@ -30,7 +31,7 @@
 
 #if !defined CMSIS_VOUT || !defined CMSIS_VIN
 // Add user includes here:
-
+#include "GPIO_STM32.h"
 #endif
 
 // VIO input, output definitions
@@ -41,21 +42,46 @@ __USED uint32_t vioSignalIn;                // Memory for incoming signal
 __USED uint32_t vioSignalOut;               // Memory for outgoing signal
 __USED int32_t  vioValue[VIO_VALUE_NUM];    // Memory for value used in vioGetValue/vioSetValue
 
+#if !defined CMSIS_VOUT || !defined CMSIS_VIN
+
+extern ARM_DRIVER_GPIO Driver_GPIO0;
+static ARM_DRIVER_GPIO* pGPIOdrv = &Driver_GPIO0;
+
+typedef enum {
+  VIO_ACTIVE_LOW,
+  VIO_ACTIVE_HIGH,
+} VIO_ACTIVE_STATE;
+
+typedef struct {
+  ARM_GPIO_Pin_t pin;
+  uint32_t mask;
+  ARM_GPIO_DIRECTION direction;
+  ARM_GPIO_OUTPUT_MODE mode;
+  ARM_GPIO_PULL_RESISTOR resitor;
+  VIO_ACTIVE_STATE activeState;
+  ARM_GPIO_SignalEvent_t eventCb;
+} VIO_pinCfg_t;
+
+#define USER_LED (0U)
+
 #if !defined CMSIS_VOUT
 // Add global user types, variables, functions here:
-
+const VIO_pinCfg_t outputPinCfg[] = {
+  {GPIO_PIN_ID_PORTC(13), vioLED3, ARM_GPIO_OUTPUT, ARM_GPIO_PUSH_PULL, ARM_GPIO_PULL_NONE, VIO_ACTIVE_LOW, NULL},
+};
 #endif
 
 #if !defined CMSIS_VIN
 // Add global user types, variables, functions here:
 
 #endif
+#endif
 
 // Initialize test input, output.
 void vioInit (void) {
 #if !defined CMSIS_VOUT
 // Add user variables here:
-
+  int i;
 #endif
 #if !defined CMSIS_VIN
 // Add user variables here:
@@ -69,7 +95,13 @@ void vioInit (void) {
 
 #if !defined CMSIS_VOUT
 // Add user code here:
-
+  for (i = 0; i < sizeof(outputPinCfg)/sizeof(*outputPinCfg); i++) {
+    pGPIOdrv->Setup(outputPinCfg[i].pin, outputPinCfg[i].eventCb);
+    pGPIOdrv->SetDirection(outputPinCfg[i].pin, outputPinCfg[i].direction);
+    pGPIOdrv->SetOutputMode(outputPinCfg[i].pin, outputPinCfg[i].mode);
+    pGPIOdrv->SetPullResistor(outputPinCfg[i].pin, outputPinCfg[i].resitor);
+    vioSetSignal(outputPinCfg[i].pin, 0U);
+  }
 #endif
 
 #if !defined CMSIS_VIN
@@ -82,7 +114,8 @@ void vioInit (void) {
 void vioSetSignal (uint32_t mask, uint32_t signal) {
 #if !defined CMSIS_VOUT
 // Add user variables here:
-
+  int i;
+  uint32_t pinValue;
 #endif
 
   vioSignalOut &= ~mask;
@@ -90,7 +123,20 @@ void vioSetSignal (uint32_t mask, uint32_t signal) {
 
 #if !defined CMSIS_VOUT
 // Add user code here:
-
+  for (i = 0; i < sizeof(outputPinCfg)/sizeof(*outputPinCfg); i++) {
+    if ((outputPinCfg[i].mask & mask) != 0) {
+      if ((signal & outputPinCfg[i].mask) != 0) {
+        pinValue = 1;
+      } else {
+        pinValue = 0;
+      }
+      if (outputPinCfg[i].activeState == pinValue) {
+        pGPIOdrv->SetOutput(outputPinCfg[i].pin, 1);
+      } else {
+        pGPIOdrv->SetOutput(outputPinCfg[i].pin, 0);
+      }
+    }
+  }
 #endif
 }
 

@@ -23,6 +23,7 @@
         <packages>
             <package vendor="Keil" name="STM32F4xx_DFP" version="3.0.0:3.0.0" />
             <package vendor="ARM" name="CMSIS" version="6.2.0:6.2.0" />
+            <package vendor="ARM" name="CMSIS-Driver_STM32" version="1.2.0:1.2.0" />
         </packages>
         <compilers>
             <compiler name="GCC" version="13.3.0:13.3.0" />
@@ -71,6 +72,7 @@
         <condition id="BlackPill">
             <description>True if board is Black Pill V3.0</description>
             <require  Bvendor="WeActStudio" Bname="BlackPill" Brevision="3.0.0" />
+            <require Cvendor="Keil" Cclass="CMSIS Driver" Cgroup="GPIO" />
         </condition>
     </conditions>
 

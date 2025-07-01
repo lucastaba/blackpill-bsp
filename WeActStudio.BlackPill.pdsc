@@ -26,7 +26,7 @@
             <package vendor="ARM" name="CMSIS-Driver_STM32" version="1.2.0:1.2.0" />
         </packages>
         <compilers>
-            <compiler name="GCC" version="13.3.0:13.3.0" />
+            <compiler name="GCC" version="13.3.1:13.3.1" />
         </compilers>
         <languages>
             <language name="C" version="99" />
@@ -89,7 +89,7 @@
     </components>
 
     <examples>
-        <example name="Blinky" folder="Examples/Blinky" doc="" version="0.1.0" >
+        <example name="Blinky" folder="Examples/Blinky" doc="" version="1.0.0" >
             <description>LED 1Hz blink in bare-metal.</description>
             <board name="BlackPill" vendor="WeActStudio" />
             <project>
